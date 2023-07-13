@@ -1,19 +1,26 @@
 from io import TextIOWrapper
 import json
+import sys
 from question_types import static_multiple_choice, ordered_multiple_choice, ranked_list_multiple_choice, identify_incorrect_pairing, numeric_question, multiple_answer, single_transit_graph
 from utilities import write_questions_to_file
 
 def generate_questions():
 
+    if len(sys.argv) != 3:
+        print("Usage: python3 main.py <input json file> <output path>")
+        sys.exit(1)
+
+
     # Read in the JSON file that contains the description of the quiz.
-    quiz_description_file = open("comprehensive_question_set.json")
+    quiz_description_file = open(sys.argv[1])
     quiz_data_from_file = json.load(quiz_description_file)
     quiz_description_file.close()
     # print(quiz_data_from_file)
 
+    output_path= sys.argv[2]
+    output_image_path = output_path + 'images/'
 
-
-    markdown_output_file: TextIOWrapper = open("testing_temp.md", "w")
+    markdown_output_file: TextIOWrapper = open("../testing_temp.md", "w")
     quiz_title = 'Quiz title: '+ str(quiz_data_from_file['quiz_name']+ '\n')
     markdown_output_file.write(quiz_title)
     if quiz_data_from_file['shuffle_answers']:
@@ -43,7 +50,7 @@ def generate_questions():
                 question.get('image'))
         elif question['question_type'] == 'single_transit_graph':        
             new_questions = single_transit_graph(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
-                question['single_transit_graph']['planet_parameters'],question['single_transit_graph']['graph_parameters'],question['single_transit_graph']['zoom_level'],\
+                question['single_transit_graph']['planet_parameters'],question['single_transit_graph']['graph_parameters'],question['single_transit_graph']['zoom_level'],output_image_path,\
                 question['single_transit_graph'].get('focus_parameter'),question['single_transit_graph'].get('distractor_multipliers'))
         else:
             raise Exception('Unrecognized question type')

@@ -1,6 +1,7 @@
 import random
 import math
 import re
+import os
 import hashlib
 from formatting import format_multiple_choice, format_numeric_question, format_multiple_answer
 from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list
@@ -403,7 +404,7 @@ def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,
 
     return unique_questions_generated
 
-def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,focus_parameter=None,distractor_multipliers=None):
+def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,output_image_path,focus_parameter=None,distractor_multipliers=None):
 
     # Define standard answers:
     standard_answers = ["A","B","C","D","E"]
@@ -519,7 +520,9 @@ def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,plan
                 labels = True
 
             # Plot the graph for this question
-            image_file = 'images/'+image_string+'_'+str(len(unique_questions_generated))+'.png'
+            if not os.path.exists(output_image_path):
+                os.makedirs(output_image_path)
+            image_file = output_image_path+image_string+'_'+str(len(unique_questions_generated))+'.png'
             generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_level,labels,image_file)
             
             # Override stem deduplication if specified in JSON file
