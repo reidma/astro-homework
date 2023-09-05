@@ -1,0 +1,18 @@
+{
+    "quiz_name": "sample assignment",
+    "shuffle_answers": true,
+    "questions": 
+    [
+        {
+            "question_type": "static_multiple_choice",
+            "stem": "Which of the following is a mammal??",
+            "versions_requested": 3,
+            "override_duplicate_stem": true,
+            "static_multiple_choice":
+            {
+                "correct_answers": ["giraffe","monkey","buffalo","cow","tiger","dolphin"],
+                "distractors": ["petunia","tuna","mushroom","potato","maple tree","sparrow","pelican","honey bee","grouse","iguana"]
+            }
+        }
+    ]
+}
