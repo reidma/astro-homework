@@ -180,7 +180,7 @@ def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,p
             #print(unique_questions_generated)
     return unique_questions_generated
 
-def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,image=None):
+def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,force_multiple_choice,image=None):
     '''A multiple choice question in which the goal is to determine which answer(s) correctly rank(s)
     a set of options. The author supplies a list of correctly ranked items
     and from those we generate lists of incorrectly ranked items.'''
@@ -256,12 +256,21 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
                 stem_with_blanks = stem
 
             previous_answer_sets.append(used_answers)
-            unique_questions_generated.append(format_multiple_answer(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answers,distractors,image))
+
+            # Give the user the option to force multiple choice formatting, in the case where there is only one correct answer
+
+            if force_multiple_choice and (num_correct != 1):
+                raise Exception('You may not force multiple choice formatting when there is more than one correct answer')
+
+            if force_multiple_choice and (num_correct == 1):
+                unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
+                    stem_with_blanks,correct_answers[0],distractors,image))
+            else: 
+                unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),stem_with_blanks,correct_answers,distractors,image))
             
     return unique_questions_generated  
 
-def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_stem,pairs,num_incorrect,image=None):
+def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_stem,pairs,num_incorrect,force_multiple_choice,image=None):
 
     # Given an algorithmically generated list of pairs of items, choose the ones that don't 
     # match one another. For example, each pair could consist of a geologic eon and an event 
@@ -298,7 +307,6 @@ def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_ste
     # The total possible number of unique sets of answers is equal to the number of correct pairings
     # times the total number of possible distractor combinations.
     # total_possible_answer_combinations = unique_incorrect_pairings*math.comb(unique_correct_pairings,4)
-    print("num_incorrect = ",num_incorrect)
     total_possible_answer_combinations = math.comb(unique_incorrect_pairings,num_incorrect)*math.comb(unique_correct_pairings,(5 - num_incorrect))
     if total_possible_answer_combinations < num_questions_desired:
         raise Exception('number of desired questions not possible given number of possible combinations of distractors and solutions')
@@ -358,8 +366,17 @@ def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_ste
             for j in range(0,(5-num_incorrect)):
                 distractor_strings.append(str(distractors[j][0])+', '+str(distractors[j][1]))
             
-            unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),\
-                stem_with_blanks,correct_answer_strings,distractor_strings,image))              
+            # Give the user the option to force multiple choice formatting, in the case where there is only one correct answer
+
+            if force_multiple_choice and (num_incorrect != 1):
+                raise Exception('You may not force multiple choice formatting when there is more than one correct answer')
+
+            if force_multiple_choice and (num_incorrect == 1):
+                unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
+                    stem_with_blanks,correct_answer_strings[0],distractor_strings,image))
+            else: 
+                unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),\
+                    stem_with_blanks,correct_answer_strings,distractor_strings,image))              
 
             # Having chosen all the options for this instance of the question,
             # keep a copy of the ones that were used so we can compare the answers 

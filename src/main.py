@@ -20,7 +20,7 @@ def generate_questions():
     output_path= sys.argv[2]
     output_image_path = output_path + 'images/'
 
-    markdown_output_file: TextIOWrapper = open("../testing_temp.md", "w")
+    markdown_output_file: TextIOWrapper = open(str(quiz_data_from_file['quiz_name']).replace(' ', '_') + ".md", "w")
     quiz_title = 'Quiz title: '+ str(quiz_data_from_file['quiz_name']+ '\n')
     markdown_output_file.write(quiz_title)
     if quiz_data_from_file['shuffle_answers']:
@@ -36,11 +36,10 @@ def generate_questions():
             new_questions = ordered_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['ordered_multiple_choice']['parameters'],question['ordered_multiple_choice']['correct_answers'],question['ordered_multiple_choice']['distractors'],question.get('image'))
         elif question['question_type'] == 'ranked_list_multiple_choice':
-            new_questions = ranked_list_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
-                question['ranked_list_multiple_choice']['ranked_list'],question['ranked_list_multiple_choice']['answer_list_length'],question['ranked_list_multiple_choice']['num_correct'],question.get('image'))
+            new_questions = ranked_list_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],question['ranked_list_multiple_choice']['ranked_list'],question['ranked_list_multiple_choice']['answer_list_length'],question['ranked_list_multiple_choice']['num_correct'],question['ranked_list_multiple_choice']['force_multiple_choice'],question.get('image'))
         elif question['question_type'] == 'identify_incorrect_pairing':
             new_questions = identify_incorrect_pairing(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
-                question['identify_incorrect_pairing']['pairs'],question['identify_incorrect_pairing']['num_incorrect'],question.get('image'))
+                question['identify_incorrect_pairing']['pairs'],question['identify_incorrect_pairing']['num_incorrect'],question['identify_incorrect_pairing']['force_multiple_choice'],question.get('image'))
         elif question['question_type'] == 'numeric_question':
             new_questions = numeric_question(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['numeric_question']['formula'],question['numeric_question']['parameters'],question['numeric_question']['percent_precision'],question.get('image'))
