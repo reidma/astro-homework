@@ -232,12 +232,13 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
         # Generate the distractors, ensuring that each is unique
         while len(distractors) < (5 - num_correct):
             distractor_indices = random.sample(range(len(ranked_list)),list_length)
-            # Ensure that the indices are not in the correct order by first putting them in the 
-            # correct order then shuffling that order
-            distractor_indices.sort()
-            random.shuffle(distractor_indices)
-            #print(distractor_indices)
-
+            # Ensure that the distractor_indices are not in the correct order by putting them in the
+            # correct order, then shuffling them and comparing to the original order:
+            shuffled_indices = distractor_indices[:]
+            while (shuffled_indices == distractor_indices):
+                random.shuffle(shuffled_indices)
+            distractor_indices = shuffled_indices[:]
+            
             distractor_candidate = [ranked_list[distractor_list_index] for distractor_list_index in distractor_indices]
             distractor_candidate_string = ', '.join(str(answer) for answer in distractor_candidate)
             if distractor_candidate_string not in used_answers:

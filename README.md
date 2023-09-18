@@ -80,3 +80,5 @@ e) iguana
 
 END_GROUP
 ```
+
+This is the necessary input for the text QTI package.
