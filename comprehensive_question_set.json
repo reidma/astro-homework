@@ -1,0 +1,231 @@
+{
+    "quiz_name": "comprehensive question set",
+    "shuffle_answers": true,
+    "questions": 
+    [
+        {
+            "question_type": "static_multiple_choice",
+            "stem": "Which of the following best describes the astrobiological significance of the Great Oxygenation Event?",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "static_multiple_choice":
+            {
+                "correct_answers": ["It demonstrates that life itself can completely reshape the biosphere of a planet.",
+                    "It demonstrates that life is subject to major setbacks on a planetary scale.",
+                    "It shows that some species can adapt and flourish under conditions which would be toxic to other species.",
+                    "It shows that the course of evolution on a planet can be radically altered by extreme events."],
+                "distractors": ["It demonstrates that no species can live forever.",
+                    "It proves that natural selection is a complex process and that only the fittest survive.",
+                    "It shows that the average lifetime of most species is probably limited to between 40 and 60 million years.",
+                    "It demonstrates that the habitability of Earth-like planets is probably limited by Gamma Ray Bursts.",
+                    "It shows that, in solar systems lacking many asteroids, evolution should proceed without mass extinctions.",
+                    "It demonstrates that comets are capable of delivering most of the oxygen in a planet's atmosphere.",
+                    "It shows that climate change can, in extreme cases, sterilize a planet.",
+                    "It shows that even insects can be vulnerable to planetary-scale extinction events",
+                    "It shows that astronomical phenomena can shape the course of life on the surfaces of other planets."]
+            }
+        },
+        {
+            "question_type": "static_multiple_choice",
+            "stem": "The following image shows an H-R diagram. Each point corresponds to a star. Collectively, these stars represent all the stars known to lie within 330 light years of the Sun. Choose the most accurate statement, based on this diagram.",
+            "versions_requested": 15,
+            "override_duplicate_stem": true,
+            "image": "images/HR_diagram.png",
+            "static_multiple_choice":
+            {
+                "correct_answers": ["There are few stars near point B because stars in that region of the diagram have short lives compared to other stars.",
+                "The longest-lived main sequence stars in the diagram would be found near point E.",
+                "Stars near point C have already exhausted their nuclear fuel and ceased core fusion reactions.",
+                "A star like the Sun will ultimately wind up near point C.",
+                "As the universe ages, more stars will migrate to region C.",
+                "A star could only remain near point B millions of years, not billions of years.",
+                "Stars can remain near point E for hundreds of billions or trillions of years."
+                ],
+                "distractors": ["The diagram only shows main sequence stars.",
+                "Stars at point D would have shorter main-sequence lifetimes than stars at point B.",
+                "Stars at point D would have longer main-sequence lifetimes than stars at point E.",
+                "Stars at point B would have longer main-sequence lifetimes than stars at point E.",
+                "Most of the stars in the diagram appear near point D because stars at this position have the longest main-sequence lifetimes.",
+                "A star would remain at point A longer than at point C.",
+                "There are very few stars near point A in the diagram because these stars would be too faint to see.",
+                "There are very few stars near point A in the diagram because these stars would be too red to see.",
+                "There are few stars near point B because main sequence stars can't have that combination of temperature and luminosity.",
+                "As a star like the Sun ages, it will move in order from point A to B to C to D, and finally to point E."
+                ]
+
+            }
+        },
+        {
+            "question_type": "ordered_multiple_choice",
+            "stem": "Consider two main-sequence stars. Compared to a early_parameter star, a late_parameter star has a lower:",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "ordered_multiple_choice":
+            {
+                "parameters": ["O","B","A","F","G","K","M"],
+                "correct_answers": ["surface temperature","mass","radius"],
+                "distractors": ["lifetime","orbital period","semi-major axis","redshift","age","metallicity","blueshift"]
+            }
+        },
+        {
+            "question_type": "ordered_multiple_choice",
+            "stem": "Consider the following HR diagram which shows all known stars within 330 light years of the Sun. Compared to a star at point late_parameter, a star at point early_parameter would have a lower:",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "image": "images/HR_diagram2.png",
+            "ordered_multiple_choice":
+            {
+                "parameters": ["A","B","C"],
+                "correct_answers": ["radius","luminosity","mass"],
+                "distractors": ["surface temperature","age","redshift","distance","metallicity"]
+            }
+        },
+        {
+            "question_type": "ordered_multiple_choice",
+            "stem": "Which of the following statements is CORRECT?",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "ordered_multiple_choice":
+            {
+                "parameters": ["Mars-sized","Super-Earth","Jovian","Super-Jupiter"],
+                "correct_answers": ["A early_parameter planet would be harder to detect by the transit method than a late_parameter planet.",
+                "early_parameter planets typically have lower masses than late_parameter planets.",
+                "early_parameter planets typically have lower concentrations of hydrogen in their atmospheres than late_parameter planets."
+                ],
+                "distractors": ["A early_parameter planet would be more likely to have a thick atmosphere than a late_parameter planet.",
+                "A early_parameter planet is more likely to have a strong magnetic field than a late_parameter planet.",
+                "early_parameter planets are likely to have more moons than late_parameter planets.",
+                "early_parameter planets are more likely to have thick atmospheres than late_parameter planets.",
+                "early_parameter planets orbit close to their parent stars, while late_parameter planets orbit far from their parent stars."
+                ]
+            }
+        },
+        {
+            "question_type": "ranked_list_multiple_choice",
+            "stem": "Which of the following lists correctly orders these objects by size, from smallest to largest? Select all that apply.",
+            "versions_requested": 10,
+            "override_duplicate_stem": true,
+            "ranked_list_multiple_choice":
+            {
+                "ranked_list": ["Pluto","the Moon","Earth","Jupiter","the Sun","the solar system","the Milky Way galaxy","the Local Group","the universe"],
+                "answer_list_length": 4,
+                "num_correct": 2
+            }
+        },
+        {
+            "question_type": "identify_incorrect_pairing",
+            "stem": "Which of the following are incorrect pairings of a geologic eon with an event taking place primarily during that eon? Select all that apply.",
+            "versions_requested": 20,
+            "override_duplicate_stem": true,
+            "identify_incorrect_pairing":
+            {
+                "pairs":
+                    {
+                        "Hadean": ["The formation of Earth", "Earth develops an atmosphere","The formation of the Moon","Earth's oceans begin to form","Earliest chemical (and disputed) evidence for the origin of life"],
+                        "Archean": ["The formation of the first single-celled lifeforms","The first conclusive signs of life on Earth","Stromatolites proliferate across Earth"],
+                        "Proterozoic": ["First definite signs of eukaryotic life","Great Oxygenation Event","First definite signs of multicellular life"],
+                        "Phanerozoic": ["Life migrates onto land","The End-Permian mass extinction","The Cambrian explosion","The first humans evolve","The first dinosaurs evolve","The first trilobites evolve"]
+                    },
+                "num_incorrect": 3
+            }
+        },
+        {
+            "question_type": "numeric_question",
+            "stem": "Consider a spacecraft capable of traveling at par0 percent of the speed of light. How many times could such a spacecraft cross a galaxy par1 hundred thousand light years in diameter within par2 million years? Only count single crossings and express your answer as a whole number. So, if your answer were that the spacecraft could cross back and forth across the galaxy a single time, you would enter '2'.",
+            "override_duplicate_stem": false,
+            "versions_requested": 10,
+            "numeric_question":
+            {
+                "formula": "par[2]*1000000/(par[1]*100000/(par[0]/100))",
+                "parameters": [[8,0.5,600],[23,2.0,5000]],                            
+                "percent_precision": 5
+            }
+        },
+        {
+            "question_type": "multiple_answer",
+            "stem": "Which of the following is NOT a conventionally accepted name for a stage in the life cycle of a star? Select all that apply.",
+            "override_duplicate_stem": true,
+            "versions_requested": 10,
+            "multiple_answer":
+            {
+                "correct_answers": ["green supergiant","brown dwarf","orange dwarf","proton star","white hole","ultranova"],
+                "distractors": ["red supergiant","white dwarf","red dwarf","blue supergiant","red giant","black hole","neutron star","horizontal branch star"]
+            }
+        },
+        {
+            "question_type": "single_transit_graph",
+            "stem": "Which of these planets has the largest radius?",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "single_transit_graph":
+            {
+                "planet_parameters": 
+                [ 
+                    {"orbital_period": 1.0, "planet_radius": [0.4,0.45], "orbital_eccentricity": 0, "inferior_conjunction": 0.05, "correct": true},
+                    {"orbital_period": 1.4, "planet_radius": [0.12,0.14], "orbital_eccentricity": 0, "inferior_conjunction": [-0.5,0.5]},
+                    {"orbital_period": 1.7, "planet_radius": [0.2,0.21], "orbital_eccentricity": 0, "inferior_conjunction": [-0.5,0.5]},
+                    {"orbital_period": 1.2, "planet_radius": [0.3,0.31], "orbital_eccentricity": 0, "inferior_conjunction": [-0.5,0.5]}
+                ],
+                "graph_parameters": { "noise_level": 0.001, "num_points": [4000,5000] },
+                "zoom_level": "multi_transit",
+                "focus_parameter": "tagged_correct"
+            }
+        },
+        {
+            "question_type": "single_transit_graph",
+            "stem": "How many planets are represented by this graph??",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "single_transit_graph":
+            {
+                "planet_parameters": 
+                [ 
+                    {"orbital_period": [1.5,2.0], "planet_radius": [0.25,0.3], "orbital_eccentricity": 0, "inferior_conjunction": 0.0},
+                    {"orbital_period": 1.0, "planet_radius": [0.09,0.13], "orbital_eccentricity": 0, "inferior_conjunction": 0.07},
+                    {"orbital_period": 2.3, "planet_radius": [0.16,0.19], "orbital_eccentricity": 0, "inferior_conjunction": 0.1},
+                    {"orbital_period": [3.1,3.5], "planet_radius": [0.2,0.23], "orbital_eccentricity": 0, "inferior_conjunction": 0.1}
+                ],
+                "graph_parameters": { "noise_level": [0.0001,0.003], "num_points": [3000,4000] },
+                "zoom_level": "multi_transit",
+                "focus_parameter": "num_planets"
+            }
+        },
+        {
+            "question_type": "single_transit_graph",
+            "stem": "Which of the following light curves shows the planet with the largest radius?",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "single_transit_graph":
+            {
+                "planet_parameters": 
+                [ 
+                    {"orbital_period": [0.6,2.0], "planet_radius": [0.46,0.5], "orbital_eccentricity": 0, "inferior_conjunction": [0.01,0.1], "correct": true},
+                    {"orbital_period": 1.5, "planet_radius": [0.20,0.26], "orbital_eccentricity": [0.0,0.1], "inferior_conjunction": [0.01,0.1], "orbital_semimajor_axis": 10.0},
+                    {"orbital_period": 0.3, "planet_radius": [0.25,0.3], "orbital_eccentricity": [0.0,0.1], "inferior_conjunction": [0.01,0.1], "orbital_semimajor_axis": 10.0},
+                    {"orbital_period": 0.4, "planet_radius": [0.25,0.26], "orbital_eccentricity": [0.0,0.1], "inferior_conjunction": [0.01,0.1], "orbital_semimajor_axis": 10.0},
+                    {"orbital_period": 0.33, "planet_radius": [0.3,0.45], "orbital_eccentricity": [0.0,0.1], "inferior_conjunction": [0.01,0.1], "orbital_semimajor_axis": 10.0}
+                ],
+                "graph_parameters": { "noise_level": 0.005, "num_points": [200,250] },
+                "zoom_level": "single_transit",
+                "focus_parameter": "tagged_correct"
+            }
+        },
+        {
+            "question_type": "single_transit_graph",
+            "stem": "What is the radius of the exoplanet shown in the following light curve?",
+            "versions_requested": 3,
+            "override_duplicate_stem": true,
+            "single_transit_graph":
+            {
+                "planet_parameters": 
+                [ 
+                    {"orbital_period": 1.0, "planet_radius": [0.1,0.15], "orbital_eccentricity": 0, "inferior_conjunction": 0.0, "correct": true}
+                ],
+                "graph_parameters": { "noise_level": 0.00005, "num_points": [200,250] },
+                "focus_parameter": "planet_radius",
+                "distractor_multipliers": [0.5,2.0,4.0,1.4],
+                "zoom_level": "single_transit"
+            }
+        }
+    ]
+}
