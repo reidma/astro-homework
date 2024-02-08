@@ -236,17 +236,17 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
             # correct order, then shuffling them and comparing to the original order:
             distractor_indices.sort()
             shuffled_indices = distractor_indices[:]
-            print('shuffled_indices ',shuffled_indices)
+            #print('shuffled_indices ',shuffled_indices)
             while (shuffled_indices == distractor_indices):
                 random.shuffle(shuffled_indices)
             distractor_indices = shuffled_indices[:]
-            print('distractor_indices ',distractor_indices)
+            #print('distractor_indices ',distractor_indices)
 
             distractor_candidate = [ranked_list[distractor_list_index] for distractor_list_index in distractor_indices]
-            print('distractor candidate ',distractor_candidate)
+            #print('distractor candidate ',distractor_candidate)
             distractor_candidate_string = ', '.join(str(answer) for answer in distractor_candidate)
-            print('distractor candidate string ',distractor_candidate_string)
-            print('used answers ',used_answers)
+            #print('distractor candidate string ',distractor_candidate_string)
+            #print('used answers ',used_answers)
             if distractor_candidate_string not in used_answers:
                 distractors.append(distractor_candidate_string)
                 used_answers.append(distractor_candidate_string)
@@ -407,7 +407,12 @@ def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,
         # par = []
 
         # Generate the random parameters for this instance of the question
-        par = [round_sigfigs(random.uniform(input_parameters[0][i],input_parameters[1][i]),3) for i in range(0,len(input_parameters[0]))]
+        par = [round(random.randint(input_parameters[0][i], input_parameters[1][i])) 
+       if isinstance(input_parameters[0][i], int) and isinstance(input_parameters[1][i], int)
+       else round_sigfigs(random.uniform(input_parameters[0][i], input_parameters[1][i]), 3)
+       for i in range(len(input_parameters[0]))]
+        #par = [round_sigfigs(random.uniform(input_parameters[0][i],input_parameters[1][i]),3) for i in range(0,len(input_parameters[0]))]
+        #par = [round(random.uniform(input_parameters[0][i],input_parameters[1][i])) for i in range(0,len(input_parameters[0]))]
         # print(par)
         # print(random.uniform(input_parameters[0][0],input_parameters[1][0]))
 
@@ -493,7 +498,7 @@ def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,plan
         distractors = []
         # Choose the correct option depending on the focus parameter
         if focus_parameter == "num_planets":
-            number_of_planets = random.randint(1,4)
+            number_of_planets = random.randint(1,len(planet_parameters))
             correct_answer = [number_of_planets]
             distractors = [k for k in range(0,6) if k != correct_answer[0]]
             fixed_planet_parameters = select_random_items_from_list(fixed_planet_parameters,number_of_planets)
@@ -547,6 +552,7 @@ def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,plan
             if not os.path.exists(output_image_path):
                 os.makedirs(output_image_path)
             image_file = output_image_path+image_string+'_'+str(len(unique_questions_generated))+'.png'
+            print("Creating image file: ",image_file)
             generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_level,labels,image_file)
             
             # Override stem deduplication if specified in JSON file

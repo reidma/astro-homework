@@ -1,6 +1,7 @@
 from io import TextIOWrapper
 import json
 import sys
+import os
 from question_types import static_multiple_choice, ordered_multiple_choice, ranked_list_multiple_choice, identify_incorrect_pairing, numeric_question, multiple_answer, single_transit_graph
 from utilities import write_questions_to_file
 
@@ -18,7 +19,7 @@ def generate_questions():
     # print(quiz_data_from_file)
 
     output_path= sys.argv[2]
-    output_image_path = output_path + 'images/'
+    output_image_path = os.path.join(output_path if output_path != '.' else '', 'images/')
 
     markdown_output_file: TextIOWrapper = open(str(quiz_data_from_file['quiz_name']).replace(' ', '_') + ".md", "w")
     quiz_title = 'Quiz title: '+ str(quiz_data_from_file['quiz_name']+ '\n')
@@ -29,6 +30,7 @@ def generate_questions():
     # Parse the JSON tree, generating questions as it specifies:
     question_list = quiz_data_from_file['questions']
     for question in question_list:
+        print("Processing question with stem: " + question['stem'])
         if question['question_type'] == 'static_multiple_choice':
             new_questions = static_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['static_multiple_choice']['correct_answers'],question['static_multiple_choice']['distractors'],question.get('image'))

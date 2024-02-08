@@ -123,7 +123,7 @@ def generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_l
                     i += 1
                 # Randomly select three labels to keep for each planet. This helps with label crowding.
                 random.shuffle(time_labels_this_planet)
-                time_labels_this_planet = time_labels_this_planet[:3]
+                time_labels_this_planet = time_labels_this_planet[:4]
 
                 # Set the height of the labels to be a fixed fraction of the height of the viewport,             
                 # chosen to work reasonably well with all but the very highest noise levels.
