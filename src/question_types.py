@@ -277,13 +277,12 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
             
     return unique_questions_generated  
 
-def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_stem,pairs,num_incorrect,force_multiple_choice,image=None):
+def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,pairs,num_correct,answer_match_or_mismatch,force_multiple_choice,image=None):
 
-    # Given an algorithmically generated list of pairs of items, choose the ones that don't 
-    # match one another. For example, each pair could consist of a geologic eon and an event 
+    # Given a list of pairs of items, choose the ones that either do or do not match.
+    # For example, each pair could consist of a geologic eon and an event 
     # supposed to have occurred during that eon. Students pick the one that is an incorrect 
-    # pairing. There could be a very large list of events, and the question algorithmically 
-    # generates four correct pairings and one incorrect pairings.
+    # pairing. Whether the correct answer is a match or a mismatch must be specified.
 
     # A list to keep track of sets of answers previously used so we don't duplicate them
     previous_answer_sets = []
@@ -293,70 +292,91 @@ def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_ste
     unique_questions_generated = []
 
     # Calculate the number of possible versions of this question
-    unique_correct_pairings = 0
-    unique_incorrect_pairings = 0
+    unique_matches = 0
+    unique_mismatches = 0
     for key in pairs:
         '''In the case that we allow for multiple correct answers, the number of unique questions
         that can be generated is the number of possible correct pairings choose the number of desired correct pairings,
         times the number of possible incorrect pairings choose the number of desired incorrect pairings.'''
 
-        # The number of possible correct pairings is simply equal to the total number of entries in the pairs dict, 
+        # The number of possible matches is simply equal to the total number of entries in the pairs dict, 
         # because that dict contains only correct pairings
-        unique_correct_pairings += len(pairs[key])
-
+        unique_matches += len(pairs[key])
+        
         # For each key, calculate all of the possible incorrect pairings by summing up all the ways this key
         # can be paired with entries from other keys, which are not correct matches.
         pairs_without_this_key = pairs.copy()
         pairs_without_this_key.pop(key)
         for non_matching_key in pairs_without_this_key:
-            unique_incorrect_pairings += len(pairs_without_this_key[non_matching_key])
+            unique_mismatches += len(pairs_without_this_key[non_matching_key])
         
-    # The total possible number of unique sets of answers is equal to the number of correct pairings
-    # times the total number of possible distractor combinations.
-    # total_possible_answer_combinations = unique_incorrect_pairings*math.comb(unique_correct_pairings,4)
-    total_possible_answer_combinations = math.comb(unique_incorrect_pairings,num_incorrect)*math.comb(unique_correct_pairings,(5 - num_incorrect))
+    # The total possible number of unique sets of answers is equal to the number of matches
+    # times the total number of possible mismatches.
+    if answer_match_or_mismatch == "match":
+        total_possible_answer_combinations = math.comb(unique_matches,num_correct)*math.comb(unique_mismatches,(5 - num_correct))
+    elif answer_match_or_mismatch == "mismatch":
+        total_possible_answer_combinations = math.comb(unique_mismatches,num_correct)*math.comb(unique_matches,(5 - num_correct))
+        
     if total_possible_answer_combinations < num_questions_desired:
         raise Exception('number of desired questions not possible given number of possible combinations of distractors and solutions')
 
     # Generate the requested number of versions of this question
     while len(unique_questions_generated) < num_questions_desired:
         
-        correct_answers = [] # Compile the correct answers, which are incorrect pairings
+        correct_answers = [] # Compile the correct answers
         distractors = [] # Compile the distractors for this instance of the question
-        used_answers = [] # Compile all sets of answers used including both distractors and the correct answer
+        used_answers = [] # Compile all sets of answers used, including both distractors and the correct answer
+        matches = [] # Compile the matches for this instance of the question
+        mismatches = [] # Compile the mismatches for this instance of the question
 
+        # Determine the number of matches and mismatches needed
+        if answer_match_or_mismatch == "match":
+            matches_needed = num_correct
+            mismatches_needed = 5 - num_correct
+        elif answer_match_or_mismatch == "mismatch":
+            matches_needed = 5 - num_correct
+            mismatches_needed = num_correct
+        else:
+            raise Exception('Could not calculate necessary number of matches and mismatches for multiple choice matching question. Check JSON file.')
+        
+        print("Matches,mismatches ",matches_needed,mismatches_needed)
         # Choose the key that will form the basis for the mismatched pair, which will be the correct answer:
         # random_mismatch_key = random.choice(list(pairs.keys()))
 
-        # Choose the pairs of keys and values that will form the basis for the mismatched pairs, which are the
-        # correct answer(s)
-        while len(correct_answers) < num_incorrect:
-            # Choose the key that will form the basis for the mismatched pair, which will be a correct answer:
-            random_mismatch_key = random.choice(list(pairs.keys()))
+        # Choose the pairs of keys and values that will form the basis for the mismatched pairs
+        while len(mismatches) < mismatches_needed:
+            # Choose the key that will form the basis for the mismatched pair
+            random_mismatch_key_part1 = random.choice(list(pairs.keys()))
             # Now choose a new key that doesn't match the previous one, thereby guaranteeing that we get a mismatched pair
             pairs_only_mismatches = pairs.copy()
-            pairs_only_mismatches.pop(random_mismatch_key)
-            random_mismatch_key_bad = random.choice(list(pairs_only_mismatches.keys()))
+            pairs_only_mismatches.pop(random_mismatch_key_part1)
+            random_mismatch_key_part2 = random.choice(list(pairs_only_mismatches.keys()))
 
-            candidate_correct_answer = [random_mismatch_key,random.choice(pairs_only_mismatches[random_mismatch_key_bad])]
-            if candidate_correct_answer not in used_answers:
-                correct_answers.append(candidate_correct_answer)
-                used_answers.append(candidate_correct_answer)
+            candidate_mismatch = [random_mismatch_key_part1,random.choice(pairs_only_mismatches[random_mismatch_key_part2])]
+            if candidate_mismatch not in used_answers:
+                mismatches.append(candidate_mismatch)
+                used_answers.append(candidate_mismatch)
 
-        # Now generate the necessary number of correctly matched answers. In the context of this question, these will 
-        # be the wrong answers. The pairings are chosen randomly, so for each pairing, check that 
+        # Now generate the necessary number of matches. The pairings are chosen randomly, so for each pairing, check that 
         # it hasn't been used before in this question.
-        while len(distractors) < (5 - num_incorrect):
+        while len(matches) < (matches_needed):
             random_key = random.choice(list(pairs.keys()))
-            distractor_candidate = [random_key,random.choice(pairs[random_key])]
-            if distractor_candidate not in used_answers:
-                distractors.append(distractor_candidate)
-                used_answers.append(distractor_candidate)
+            match_candidate = [random_key,random.choice(pairs[random_key])]
+            if match_candidate not in used_answers:
+                matches.append(match_candidate)
+                used_answers.append(match_candidate)
 
         used_answers.sort()
     
-        # If this version of the question isn't a duplicate, use it
+        # If set of answers aren't a duplicate of a previous version of the question, then use them.
         if used_answers not in previous_answer_sets:
+
+            if answer_match_or_mismatch == "match":
+                correct_answers = matches
+                distractors = mismatches
+            elif answer_match_or_mismatch == "mismatch":
+                correct_answers = mismatches
+                distractors = matches
 
             # Override stem deduplication if specified in JSON file
             if override_duplicate_stem:
@@ -366,19 +386,19 @@ def identify_incorrect_pairing(stem,num_questions_desired,override_duplicate_ste
                 stem_with_blanks = stem
             
             correct_answer_strings = []
-            for k in range(0,num_incorrect):
+            for k in range(0,num_correct):
                 correct_answer_strings.append(str(correct_answers[k][0])+', '+str(correct_answers[k][1]))
 
             distractor_strings = []
-            for j in range(0,(5-num_incorrect)):
+            for j in range(0,(5-num_correct)):
                 distractor_strings.append(str(distractors[j][0])+', '+str(distractors[j][1]))
             
             # Give the user the option to force multiple choice formatting, in the case where there is only one correct answer
 
-            if force_multiple_choice and (num_incorrect != 1):
+            if force_multiple_choice and (num_correct != 1):
                 raise Exception('You may not force multiple choice formatting when there is more than one correct answer')
 
-            if force_multiple_choice and (num_incorrect == 1):
+            if force_multiple_choice and (num_correct == 1):
                 unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
                     stem_with_blanks,correct_answer_strings[0],distractor_strings,image))
             else: 

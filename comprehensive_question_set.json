@@ -109,16 +109,18 @@
             {
                 "ranked_list": ["Pluto","the Moon","Earth","Jupiter","the Sun","the solar system","the Milky Way galaxy","the Local Group","the universe"],
                 "answer_list_length": 4,
-                "num_correct": 2
+                "num_correct": 2,
+                "force_multiple_choice": false
             }
         },
         {
-            "question_type": "identify_incorrect_pairing",
-            "stem": "Which of the following are incorrect pairings of a geologic eon with an event taking place primarily during that eon? Select all that apply.",
+            "question_type": "multiple_choice_matching",
+            "stem": "Which of the following are INCORRECT pairings of a geologic eon with an event taking place primarily during that eon? Select all that apply.",
             "versions_requested": 20,
             "override_duplicate_stem": true,
-            "identify_incorrect_pairing":
+            "multiple_choice_matching":
             {
+                "answer_match_or_mismatch": "mismatch",
                 "pairs":
                     {
                         "Hadean": ["The formation of Earth", "Earth develops an atmosphere","The formation of the Moon","Earth's oceans begin to form","Earliest chemical (and disputed) evidence for the origin of life"],
@@ -126,7 +128,26 @@
                         "Proterozoic": ["First definite signs of eukaryotic life","Great Oxygenation Event","First definite signs of multicellular life"],
                         "Phanerozoic": ["Life migrates onto land","The End-Permian mass extinction","The Cambrian explosion","The first humans evolve","The first dinosaurs evolve","The first trilobites evolve"]
                     },
-                "num_incorrect": 3
+                "num_correct": 3,
+                "force_multiple_choice": false
+            }
+        },
+        {
+            "question_type": "multiple_choice_matching",
+            "stem": "Which of the following are CORRECT pairings of a type of star and its description? Select all that apply.",
+            "versions_requested": 20,
+            "override_duplicate_stem": true,
+            "multiple_choice_matching":
+            {
+                "answer_match_or_mismatch": "match",
+                "pairs":
+                    {
+                        "Red Giant": ["Has already left the main sequence","Has a surface temperature between 3000 and 5000 K","Has a luminosity larger than that of the Sun"],
+                        "White Dwarf": ["Radius is almost always between 0.01 and 0.1 times that of the Sun","Has a surface temperature between 8000 and 10000 K","Has a luminosity smaller than that of the Sun"],
+                        "luminosity class V star": ["Currently fusing hydrogen in its core","The same type of star as the Sun is today"]                    
+                    },
+                "num_correct": 2,
+                "force_multiple_choice": false
             }
         },
         {
@@ -149,7 +170,8 @@
             "multiple_answer":
             {
                 "correct_answers": ["green supergiant","brown dwarf","orange dwarf","proton star","white hole","ultranova"],
-                "distractors": ["red supergiant","white dwarf","red dwarf","blue supergiant","red giant","black hole","neutron star","horizontal branch star"]
+                "distractors": ["red supergiant","white dwarf","red dwarf","blue supergiant","red giant","black hole","neutron star","horizontal branch star"],
+                "number_correct_options_desired": 2
             }
         },
         {
