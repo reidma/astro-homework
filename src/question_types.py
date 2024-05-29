@@ -150,15 +150,17 @@ def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,p
         correct_answer = [random.choice(correct_options)]
 
         # Go through and replace any instances of early_parameter and late_parameter 
-        # in the stem and all of the answers.
-        # print(stem)
-        subbed_stem  = re.sub("early_parameter",early_parameter,stem)
-        subbed_stem  = correct_articles(re.sub("late_parameter",late_parameter,subbed_stem))
-        # print(stem)
-        subbed_correct_answer = [re.sub("early_parameter",early_parameter,answer) for answer in correct_answer]
-        subbed_correct_answer = [correct_articles(re.sub("late_parameter",late_parameter,answer)) for answer in subbed_correct_answer]
-        subbed_distractors = [re.sub("early_parameter",early_parameter,answer) for answer in distractors]
-        subbed_distractors = [correct_articles(re.sub("late_parameter",late_parameter,answer)) for answer in subbed_distractors]
+        # in the stem and all of the answers. Correct article mismatches as you go.
+        
+        subbed_stem = correct_articles(stem,"early_parameter",early_parameter)
+        subbed_stem = correct_articles(subbed_stem,"late_parameter",late_parameter)
+        
+        subbed_correct_answer = [correct_articles(answer,"early_parameter",early_parameter) for answer in correct_answer]
+        subbed_correct_answer = [correct_articles(answer,"late_parameter",late_parameter) for answer in subbed_correct_answer]
+
+        subbed_distractors = [correct_articles(distractor,"early_parameter",early_parameter) for distractor in distractors]
+        subbed_distractors = [correct_articles(distractor,"late_parameter",late_parameter) for distractor in subbed_distractors]
+
 
         # Produce a list of all of the answers used for this version of the question and 
         # sort them so that they can be compared to previously generated sets

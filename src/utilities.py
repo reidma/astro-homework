@@ -5,36 +5,33 @@ def add_blank_characters(input_string,num_chars):
     new_string =input_string + '&#8202'*num_chars
     return new_string
 
-def correct_articles(text):
-    """
-    This function takes a string of text as input and returns the corrected string with
-    all articles ('a' or 'an') corrected based on whether the following word starts with
-    a vowel or consonant. It also corrects for single-letter instances of vowel-like consonants
-    such as 'M' and 'N'. The capitalization of the articles is maintained.
-    """
+def correct_articles(text,search_string,substitution_string):
+    # This function takes a string of text as input, searches for search_string, and replaces it
+    # with substitution_string. It takes the corrected string and looks at the            
+    # character immediately prior to the substitution_string. 
+    # All articles ('a' or 'an') immediately prior to the substitution_string are corrected based 
+    # on whether the following word starts with
+    # a vowel or consonant. It also corrects for single-letter instances of vowel-like consonants
+    # such as 'M' and 'N'. The capitalization of the articles is maintained. 
+
     words = text.split()
     corrected_words = []
     vowels = ['a', 'e', 'i', 'o', 'u']
-    vowel_like_consonants = ['m', 'n']
+    vowel_like_consonants = ['m', 'n', 'f', 'h', 'l', 'r', 's', 'x']
     for i, word in enumerate(words):
-        lower_word = word.lower()
-        if lower_word == 'a' or lower_word == 'an':
-            is_uppercase = word[0].isupper()
-            corrected_word = ''
-            if i+1 < len(words):
-                next_word = words[i+1]
-                # Check if the word is a single character and starts with 'm' or 'n'
-                if len(next_word) == 1 and next_word.lower() in vowel_like_consonants:
-                    corrected_word = 'an'
-                elif next_word[0].lower() in vowels:
-                    corrected_word = 'an'
-                else:
-                    corrected_word = 'a'
-            corrected_word = corrected_word.capitalize() if is_uppercase else corrected_word
-            corrected_words.append(corrected_word)
+        if word == search_string: 
+            corrected_words.append(substitution_string)
+            # If the search string is the first word, just replace it with the substitution_string
+            if words[i-1] == 'a' or words[i-1] == 'an':
+                if len(substitution_string) == 1 and substitution_string.lower() in vowel_like_consonants:
+                    corrected_words[i-1] = 'an'
+                elif substitution_string.lower() in vowels:
+                    corrected_words[i-1] = 'an'
         else:
             corrected_words.append(word)
+    finalized_string = ' '.join(corrected_words)
     return ' '.join(corrected_words)
+
 
 
 
