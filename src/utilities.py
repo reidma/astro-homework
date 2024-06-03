@@ -1,5 +1,7 @@
 import random
 import math
+import hashlib
+from datetime import datetime
 
 def add_blank_characters(input_string,num_chars):
     new_string =input_string + '&#8202'*num_chars
@@ -59,3 +61,11 @@ def round_sigfigs(number, sig_figs):
 def write_questions_to_file(markdown_output_file,formatted_questions):
     for question in formatted_questions:
         markdown_output_file.write(str(question))
+
+def get_image_filename(stem):
+    # Generate the image file name based on hashing the stem for the question.
+    # This should ensure that each question gets its own string and that no two questions get the same string.
+    # Add a string including the current date and time. So, on subsequent runs, the filename will encode the stem and the time of creation.
+    date_string = datetime.now().strftime("%Y%m%d%H%M%S")
+    image_string = hashlib.md5(stem.encode()).hexdigest()+'_'+date_string
+    return image_string

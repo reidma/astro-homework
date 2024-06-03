@@ -2,9 +2,8 @@ import random
 import math
 import re
 import os
-import hashlib
 from formatting import format_multiple_choice, format_numeric_question, format_multiple_answer
-from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list
+from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list, get_image_filename
 from make_graphs import generate_transit_graph
 
 def multiple_answer(stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,number_correct_options_desired,image=None):
@@ -433,11 +432,7 @@ def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,
        if isinstance(input_parameters[0][i], int) and isinstance(input_parameters[1][i], int)
        else round_sigfigs(random.uniform(input_parameters[0][i], input_parameters[1][i]), 3)
        for i in range(len(input_parameters[0]))]
-        #par = [round_sigfigs(random.uniform(input_parameters[0][i],input_parameters[1][i]),3) for i in range(0,len(input_parameters[0]))]
-        #par = [round(random.uniform(input_parameters[0][i],input_parameters[1][i])) for i in range(0,len(input_parameters[0]))]
-        # print(par)
-        # print(random.uniform(input_parameters[0][0],input_parameters[1][0]))
-
+         
         # Now generate the stem that matches these parameters:
         revised_stem = stem
         for j in range(0,len(par)):
@@ -512,9 +507,8 @@ def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,plan
             else:
                 fixed_graph_parameters[graph_parameter_key] = graph_parameters[graph_parameter_key]
 
-        # Generate the image file name based on hashing the stem for the question.
-        # This should ensure that each question gets its own string and that no two questions get the same string.
-        image_string = hashlib.md5(stem.encode()).hexdigest()
+        # Get the name of the image file for the current graph:
+        image_string = get_image_filename(stem)
         
         correct_answer = []
         distractors = []
@@ -531,16 +525,7 @@ def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,plan
             distractors = [answer for answer in standard_answers if answer != correct_answer[0]]
             random.shuffle(distractors)
         elif distractor_multipliers:
-            # If any other focus parameter, choose the correct answer and distractors randomly
-            # within the range specified for the focused parameter
-
-            #correct_answer = [random.uniform(planet_parameters[focus_parameter][0],planet_parameters[focus_parameter][1])]
-            #correct_answer = [random.uniform(planet_parameters[focus_parameter][0],planet_parameters[focus_parameter][1])]
-            #print(fixed_planet_parameters)
-            print('focus parameter is:',fixed_planet_parameters[0][focus_parameter])
             correct_answer = [round_sigfigs(fixed_planet_parameters[0][focus_parameter],3)]
-            # print(planet_parameters[focus_parameter][0],planet_parameters[focus_parameter][1])
-            # print(correct_answer)
             # Generate the distractors from the provided parameter and multipliers
             distractors = [round_sigfigs(correct_answer[0]*multiplier,3) for multiplier in distractor_multipliers]
 
