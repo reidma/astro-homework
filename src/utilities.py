@@ -1,6 +1,7 @@
 import random
 import math
 import hashlib
+import warnings
 from datetime import datetime
 
 def add_blank_characters(input_string,num_chars):
@@ -69,3 +70,8 @@ def get_image_filename(stem):
     date_string = datetime.now().strftime("%Y%m%d%H%M%S")
     image_string = hashlib.md5(stem.encode()).hexdigest()+'_'+date_string
     return image_string
+
+def check_all_that_apply(stem):
+    # Ensure that the stem doesn't end with the phrase "all that apply.":
+    if stem.endswith("all that apply."):
+        warnings.warn('You really should not force multiple choice formatting when the stem ends with "all that apply." This would imply to students that they must be able to select more than one answer, but you have disabled this functionality, which will be very confusing. Please remove the phrase "all that apply." from the stem or set force_multiple_choice to false.')

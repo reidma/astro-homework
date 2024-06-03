@@ -37,7 +37,7 @@ def generate_questions():
     # Parse the JSON tree, generating questions as it specifies:
     question_list = quiz_data_from_file['questions']
     for question in question_list:
-        print("Processing question with stem: " + question['stem'])
+        print("\n * Processing question with stem: " + question['stem'])
         if question['question_type'] == 'static_multiple_choice':
             new_questions = static_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['static_multiple_choice']['correct_answers'],question['static_multiple_choice']['distractors'],question.get('image'))

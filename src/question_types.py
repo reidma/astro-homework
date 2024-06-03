@@ -3,7 +3,7 @@ import math
 import re
 import os
 from formatting import format_multiple_choice, format_numeric_question, format_multiple_answer
-from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list, get_image_filename
+from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list, get_image_filename, check_all_that_apply
 from make_graphs import generate_transit_graph
 
 def multiple_answer(stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,number_correct_options_desired,image=None):
@@ -181,7 +181,7 @@ def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,p
             #print(unique_questions_generated)
     return unique_questions_generated
 
-def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,force_multiple_choice,image=None):
+def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,force_multiple_choice=False,image=None):
     '''A multiple choice question in which the goal is to determine which answer(s) correctly rank(s)
     a set of options. The author supplies a list of correctly ranked items
     and from those we generate lists of incorrectly ranked items.'''
@@ -271,6 +271,7 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
                 raise Exception('You may not force multiple choice formatting when there is more than one correct answer')
 
             if force_multiple_choice and (num_correct == 1):
+                check_all_that_apply(stem)
                 unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
                     stem_with_blanks,correct_answers[0],distractors,image))
             else: 
@@ -278,7 +279,7 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
             
     return unique_questions_generated  
 
-def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,pairs,num_correct,answer_match_or_mismatch,force_multiple_choice,image=None):
+def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,pairs,num_correct,answer_match_or_mismatch,force_multiple_choice=False,image=None):
 
     # Given a list of pairs of items, choose the ones that either do or do not match.
     # For example, each pair could consist of a geologic eon and an event 
@@ -340,7 +341,6 @@ def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,
         else:
             raise Exception('Could not calculate necessary number of matches and mismatches for multiple choice matching question. Check JSON file.')
         
-        print("Matches,mismatches ",matches_needed,mismatches_needed)
         # Choose the key that will form the basis for the mismatched pair, which will be the correct answer:
         # random_mismatch_key = random.choice(list(pairs.keys()))
 
@@ -400,6 +400,7 @@ def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,
                 raise Exception('You may not force multiple choice formatting when there is more than one correct answer')
 
             if force_multiple_choice and (num_correct == 1):
+                check_all_that_apply(stem)
                 unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
                     stem_with_blanks,correct_answer_strings[0],distractor_strings,image))
             else: 
