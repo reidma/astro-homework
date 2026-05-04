@@ -1,6 +1,8 @@
 import random
 import math
+import inflect
 import hashlib
+import re
 import warnings
 from datetime import datetime
 
@@ -10,30 +12,24 @@ def add_blank_characters(input_string,num_chars):
 
 def correct_articles(text,search_string,substitution_string):
     # This function takes a string of text as input, searches for search_string, and replaces it
-    # with substitution_string. It takes the corrected string and looks at the            
-    # character immediately prior to the substitution_string. 
-    # All articles ('a' or 'an') immediately prior to the substitution_string are corrected based 
-    # on whether the following word starts with
-    # a vowel or consonant. It also corrects for single-letter instances of vowel-like consonants
-    # such as 'M' and 'N'. The capitalization of the articles is maintained. 
+    # with substitution_string. It uses the inflect library to ensure that the correct article ("a" vs "an") is used in front of the substitution string, if necessary.
 
     words = text.split()
     corrected_words = []
-    vowels = ['a', 'e', 'i', 'o', 'u']
-    vowel_like_consonants = ['m', 'n', 'f', 'h', 'l', 'r', 's', 'x']
     for i, word in enumerate(words):
-        if word == search_string: 
-            corrected_words.append(substitution_string)
-            # If the search string is the first word, just replace it with the substitution_string
+        match = re.match(r'^(\W*)(' + re.escape(search_string) + r')(\W*)$', word)
+        if match:
+            leading_punctuation, _, trailing_punctuation = match.groups()
+            corrected_words.append(f'{leading_punctuation}{substitution_string}{trailing_punctuation}')
             if words[i-1] == 'a' or words[i-1] == 'an':
-                if len(substitution_string) == 1 and substitution_string.lower() in vowel_like_consonants:
-                    corrected_words[i-1] = 'an'
-                elif substitution_string.lower() in vowels:
-                    corrected_words[i-1] = 'an'
+                p = inflect.engine()
+                corrected_words[-2] = p.a(f'{leading_punctuation}{substitution_string}') + trailing_punctuation
+                # remove the corrected word duplicated by the inflect library
+                corrected_words.pop() 
         else:
             corrected_words.append(word)
     finalized_string = ' '.join(corrected_words)
-    return ' '.join(corrected_words)
+    return finalized_string
 
 
 

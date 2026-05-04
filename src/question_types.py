@@ -314,6 +314,7 @@ def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,
         
     # The total possible number of unique sets of answers is equal to the number of matches
     # times the total number of possible mismatches.
+    total_possible_answer_combinations = 0
     if answer_match_or_mismatch == "match":
         total_possible_answer_combinations = math.comb(unique_matches,num_correct)*math.comb(unique_mismatches,(5 - num_correct))
     elif answer_match_or_mismatch == "mismatch":

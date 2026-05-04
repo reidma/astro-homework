@@ -1,5 +1,5 @@
 {
-    "quiz_name": "TATrainingAssignment",
+    "quiz_name": "debugging",
     "shuffle_answers": true,
     "questions": 
     [
@@ -70,7 +70,7 @@
         {
             "question_type": "ordered_multiple_choice",
             "stem": "Consider the following HR diagram which shows all known stars within 330 light years of the Sun. Compared to a star at point late_parameter, a star at point early_parameter would have a lower:",
-            "versions_requested": 5,
+            "versions_requested": 2,
             "override_duplicate_stem": true,
             "image": "images/HR_diagram2.png",
             "ordered_multiple_choice":
@@ -83,7 +83,7 @@
         {
             "question_type": "ordered_multiple_choice",
             "stem": "Which of the following statements is CORRECT?",
-            "versions_requested": 5,
+            "versions_requested": 2,
             "override_duplicate_stem": true,
             "ordered_multiple_choice":
             {
@@ -100,6 +100,20 @@
                 ]
             }
         },
+        {
+            "question_type": "ordered_multiple_choice",
+            "stem": "Compared to an early_parameter, a late_parameter is:",
+            "versions_requested": 20,
+            "override_duplicate_stem": true,
+            "ordered_multiple_choice":
+            {
+                "parameters": ["ostrich","mouse","ant","bacterium"],
+                "correct_answers": ["smaller","less massive"],
+                "distractors": ["bigger","older","more massive","redder","nicer","rounder","taller"]
+            }
+        },
+
+
         {
             "question_type": "ranked_list_multiple_choice",
             "stem": "Which of the following lists correctly orders these objects by size, from smallest to largest? Select all that apply.",
