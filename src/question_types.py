@@ -452,7 +452,7 @@ def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,
 
     return unique_questions_generated
 
-def single_transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,output_image_path,focus_parameter=None,distractor_multipliers=None):
+def transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,output_image_path,focus_parameter=None,distractor_multipliers=None):
 
     # Define standard answers:
     standard_answers = ["A","B","C","D","E"]

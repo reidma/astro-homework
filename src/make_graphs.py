@@ -73,12 +73,15 @@ def generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_l
         This is not suitable for research, because it doesn't accurately account for planets that overlap while transiting.
         But it should be okay as a first stab.'''
 
+        # We are plotting a complex light curve, so make it extra wide:
+        fig.set_size_inches(12, 6)
+
         # Find the planet with the largest period and use its period to set the time range for the graph.
         periods = [fixed_planet_parameters[i]['orbital_period'] for i in range(0,len(fixed_planet_parameters))]
 
         # Set the time range for the graph appropriate to a multi-transit graph, ensuring that we would see three periods 
         # of the longest-period planet (unless the time of inferior conjunction were set to a very large fraction of a period)
-        time_start = -max(periods)*random.uniform(0.1,0.1)
+        time_start = 0
         time_end = max(periods)*random.uniform(4.1,4.5)
         
         # Choose times spaced evenly through an interval, then displace them randomly.
@@ -92,8 +95,9 @@ def generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_l
 
         for i in range(0,len(fixed_planet_parameters)):
 
-            # Check whether the user has specified a range of inferior conjunction values and, if not, set it to zero
-            #print('Time of inferior conjunction, period = ',current_planet_params.t0,current_planet_params.per)
+            # Check whether the user has specified a range of inferior conjunction values and, if not, randomize them within the first period of the planet. 
+            if fixed_planet_parameters[i].get('inferior_conjunction') is None:
+                fixed_planet_parameters[i]['inferior_conjunction'] = random.uniform(0, fixed_planet_parameters[i]['orbital_period'])
             
             current_planet_fluxes = make_transit_light_curve(random_times,fixed_planet_parameters[i]['orbital_period'],fixed_planet_parameters[i]['planet_radius'],\
                 orbital_eccentricity=fixed_planet_parameters[i].get('orbital_eccentricity',0),time_inferior_conjunction=fixed_planet_parameters[i].get('inferior_conjunction',0),orbital_semimajor_axis=fixed_planet_parameters[i].get('orbital_semimajor_axis',10.0))
@@ -138,6 +142,7 @@ def generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_l
             current_ylims = ax.get_ylim()
             # print("current_ylims = ",current_ylims)
             ax.set_ylim(current_ylims[0],current_ylims[1]+((current_ylims[1]-current_ylims[0])/30))
+            ax.set_xlim(time_start,time_end)
 
 
     elif (len(fixed_planet_parameters) > 1) and (zoom_level == "single_transit"):
@@ -186,6 +191,7 @@ def generate_transit_graph(fixed_planet_parameters,fixed_graph_parameters,zoom_l
     plt.xlabel("Time (years)")
     plt.ylabel("Relative brightness (host star brightness units)")
     handles,labels = ax.get_legend_handles_labels()
+
     if len(labels) > 0:
         ax.legend()
     # plt.legend()

@@ -2,7 +2,7 @@ from io import TextIOWrapper
 import json
 import sys
 import os
-from question_types import static_multiple_choice, ordered_multiple_choice, ranked_list_multiple_choice, multiple_choice_matching, numeric_question, multiple_answer, single_transit_graph
+from question_types import static_multiple_choice, ordered_multiple_choice, ranked_list_multiple_choice, multiple_choice_matching, numeric_question, multiple_answer, transit_graph
 from utilities import write_questions_to_file
 
 def generate_questions():
@@ -56,10 +56,10 @@ def generate_questions():
             new_questions = multiple_answer(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['multiple_answer']['correct_answers'],question['multiple_answer']['distractors'],question['multiple_answer']['number_correct_options_desired'],\
                 question.get('image'))
-        elif question['question_type'] == 'single_transit_graph':        
-            new_questions = single_transit_graph(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
-                question['single_transit_graph']['planet_parameters'],question['single_transit_graph']['graph_parameters'],question['single_transit_graph']['zoom_level'],output_image_path,\
-                question['single_transit_graph'].get('focus_parameter'),question['single_transit_graph'].get('distractor_multipliers'))
+        elif question['question_type'] == 'transit_graph':        
+            new_questions = transit_graph(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
+                question['transit_graph']['planet_parameters'],question['transit_graph']['graph_parameters'],question['transit_graph']['zoom_level'],output_image_path,\
+                question['transit_graph'].get('focus_parameter'),question['transit_graph'].get('distractor_multipliers'))
         else:
             raise Exception('Unrecognized question type')
         
