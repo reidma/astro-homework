@@ -11,10 +11,15 @@ def generate_questions():
         print("Usage: python3 main.py <input json file> <output path>")
         sys.exit(1)
 
+    # Read in the JSON file that contains the content of the quiz.
+    quiz_JSON_file = open(sys.argv[1])
+    quiz_data_from_file = json.load(quiz_JSON_file)
+    quiz_JSON_file.close()
 
-    # Read in the JSON file that contains the description of the quiz.
-    quiz_description_file = open(sys.argv[1])
-    quiz_data_from_file = json.load(quiz_description_file)
+    # Read in the .md file containing the quiz description. The name of the file is in the JSON file. 
+    # The quiz description will go at the top of each quiz generated.
+    quiz_description_file = open(quiz_data_from_file['quiz_description_file'])
+    quiz_description = quiz_description_file.read()
     quiz_description_file.close()
 
     # Check that the output path exists and if not, create it
@@ -31,7 +36,7 @@ def generate_questions():
     markdown_output_file: TextIOWrapper = open(str(quiz_data_from_file['quiz_name']).replace(' ', '_') + ".md", "w")
     quiz_title = 'Quiz title: '+ str(quiz_data_from_file['quiz_name']+ '\n')
     markdown_output_file.write(quiz_title)
-    quiz_description = 'Quiz description: '+ str(quiz_data_from_file['quiz_description']+ '\n')
+    quiz_description = 'Quiz description: '+ quiz_description + '\n'
     markdown_output_file.write(quiz_description)
 
     if quiz_data_from_file['shuffle_answers']:
