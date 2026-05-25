@@ -6,6 +6,13 @@ import re
 import warnings
 from datetime import datetime
 
+def add_external_link_to_stem(stem,external_link):
+    if external_link:
+        stem_with_link = stem + "<br><br> <a href=\"" + external_link + "\"  target=\"_blank\" rel=\"noopener noreferrer\">" + external_link + "</a>"
+        return stem_with_link
+    else:
+        return stem
+    
 def add_blank_characters(input_string,num_chars):
     new_string =input_string + '&#8202'*num_chars
     return new_string

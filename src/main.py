@@ -3,7 +3,7 @@ import json
 import sys
 import os
 from question_types import static_multiple_choice, multiple_choice_with_variables, ordered_multiple_choice, ranked_list_multiple_choice, multiple_choice_matching, numeric_question, multiple_answer, transit_graph
-from utilities import write_questions_to_file
+from utilities import write_questions_to_file, add_external_link_to_stem
 
 def generate_questions():
 
@@ -45,7 +45,13 @@ def generate_questions():
     # Parse the JSON tree, generating questions as it specifies:
     question_list = quiz_data_from_file['questions']
     for question in question_list:
-        print("\n * Processing question with stem: " + question['stem'])
+        # Make an abbreviated version of the stem, preserving only the first ten words:
+        abbreviated_stem = ' '.join(question['stem'].split()[:10]) + '...'
+        print("-Processing question: " + abbreviated_stem)
+
+        # Add the external link to the stem if it exists. This will ensure that the link appears in the question as it is formatted for text2qti.
+        question['stem'] = add_external_link_to_stem(question['stem'], question.get('external_link'))
+
         if question['question_type'] == 'static_multiple_choice':
             new_questions = static_multiple_choice( question.get('points', 1),question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['static_multiple_choice']['correct_answers'],question['static_multiple_choice']['distractors'],question.get('image'))
@@ -74,6 +80,8 @@ def generate_questions():
         else:
             raise Exception('Unrecognized question type')
         
+    
+        
         # Determine whether more than one version of a given question has been
         # requested and therefore whether we need to make a question group
         
@@ -85,7 +93,13 @@ def generate_questions():
 
         if question['versions_requested'] > 1:
             markdown_output_file.write("\nEND_GROUP\n")
+    print("*******************************************************")
+    print("Finished processing questions.")    
     markdown_output_file.close()
+    print("\nFinished writing questions to file: " + str(markdown_output_file.name))
+    print("\n->Run \'text2qti " + str(markdown_output_file.name) + "\' to convert the markdown file to a QTI file that can be imported into your LMS.")
+    
+
 
     
 
