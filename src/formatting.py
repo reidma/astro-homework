@@ -1,6 +1,6 @@
 import textwrap
 
-def format_numeric_question(question_num,stem,correct_answer,answer_precision,image=None):
+def format_numeric_question(question_num,points,stem,correct_answer,answer_precision,image=None):
 
     # Compute the amount we need to indent each image file by to ensure that 
     # it lines up with the first character of the text of the stem. This is a 
@@ -9,6 +9,7 @@ def format_numeric_question(question_num,stem,correct_answer,answer_precision,im
 
     if image:
         formatted_multiple_choice_string = textwrap.dedent(rf"""
+                Points: {points}
                 {question_num}.  {stem}
                     {indent_string}![caption]({image})
                 =   {correct_answer} +- {answer_precision}
@@ -21,7 +22,7 @@ def format_numeric_question(question_num,stem,correct_answer,answer_precision,im
 
     return formatted_multiple_choice_string
 
-def format_multiple_answer(question_num,stem,correct_answers,distractors,image=None):
+def format_multiple_answer(question_num,points,stem,correct_answers,distractors,image=None):
 
     # Compute the amount we need to indent each image file by to ensure that 
     # it lines up with the first character of the text of the stem. This is a 
@@ -38,18 +39,20 @@ def format_multiple_answer(question_num,stem,correct_answers,distractors,image=N
 
     if image:
         formatted_multiple_answer_string = textwrap.dedent(rf"""
+                Points: {points}
                 {question_num}.  {stem}
                     {indent_string}![caption]({image})
                 {correct_string}{distractors_string}""")
         # formatted_multiple_answer_string.rstrip('\n\n')
     else:
         formatted_multiple_answer_string = textwrap.dedent(rf"""
+                Points: {points}
                 {question_num}.  {stem}
                 {correct_string}{distractors_string}""")
 
     return formatted_multiple_answer_string
 
-def format_multiple_choice(question_num,stem,correct_answer,distractors,image=None):
+def format_multiple_choice(question_num,points,stem,correct_answer,distractors,image=None):
 
     # Compute the amount we need to indent each image file by to ensure that 
     # it lines up with the first character of the text of the stem. This is a 
@@ -61,6 +64,7 @@ def format_multiple_choice(question_num,stem,correct_answer,distractors,image=No
     if image:
         # For now, use an rf string, inheriting the formatting from text2qti. May need to revise this.
         formatted_multiple_choice_string = textwrap.dedent(rf"""
+                    Points: {points}    
                     {question_num}.  {stem}
                         {indent_string}![caption]({image})
                     *a) {correct_answer}
@@ -71,6 +75,7 @@ def format_multiple_choice(question_num,stem,correct_answer,distractors,image=No
                     """)
     else:
         formatted_multiple_choice_string = textwrap.dedent(rf"""
+                    Points: {points}
                     {question_num}.  {stem}
                     *a) {correct_answer}
                     b) {distractors[0]}

@@ -6,7 +6,7 @@ from formatting import format_multiple_choice, format_numeric_question, format_m
 from utilities import add_blank_characters, correct_articles, round_sigfigs, select_random_items_from_list, get_image_filename, check_all_that_apply
 from make_graphs import generate_transit_graph
 
-def multiple_answer(stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,number_correct_options_desired,image=None):
+def multiple_answer(points,stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,number_correct_options_desired,image=None):
     '''This is a traditional multiple-answer question. It takes a static stem and more than one correct answer.
     '''
 
@@ -52,11 +52,11 @@ def multiple_answer(stem,num_questions_desired,override_duplicate_stem,correct_o
             
             previous_answer_sets.append(new_set)
             unique_questions_generated.append(format_multiple_answer(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answers,distractors,image))
+                str(len(unique_questions_generated)+1),points,stem_with_blanks,correct_answers,distractors,image))
             #print(unique_questions_generated)
     return unique_questions_generated
 
-def static_multiple_choice(stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,image=None):
+def static_multiple_choice(points,stem,num_questions_desired,override_duplicate_stem,correct_options,incorrect_options,image=None):
 
     # This question type is a traditional multiple choice: a static stem with one correct answer and four distractors.
     # Answers are randomly chosen from user-provided lists of strings. If there is only one possible correct answer, 
@@ -97,11 +97,11 @@ def static_multiple_choice(stem,num_questions_desired,override_duplicate_stem,co
 
             previous_answer_sets.append(new_set)
             unique_questions_generated.append(format_multiple_choice(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answer[0],distractors,image))
+                str(len(unique_questions_generated)+1),points,stem_with_blanks,correct_answer[0],distractors,image))
             #print(unique_questions_generated)
     return unique_questions_generated
 
-def multiple_choice_with_variables(stem,num_questions_desired,override_duplicate_stem,variables,correct_options,incorrect_options,image=None):
+def multiple_choice_with_variables(points,stem,num_questions_desired,override_duplicate_stem,variables,correct_options,incorrect_options,image=None):
 
     # This question type is a multiple choice question in which there are variables in either or both of the stem and 
     # the answers. Technically, this is a superset of static multiple choice questions, and could be 
@@ -160,12 +160,12 @@ def multiple_choice_with_variables(stem,num_questions_desired,override_duplicate
 
             previous_answer_sets.append(new_set)
             unique_questions_generated.append(format_multiple_choice(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answer[0],distractors,image))
+                str(len(unique_questions_generated)+1),points,stem_with_blanks,correct_answer[0],distractors,image))
             #print(unique_questions_generated)
     return unique_questions_generated
 
 
-def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,parameters,correct_options,incorrect_options,image=None):
+def ordered_multiple_choice(points,stem,num_questions_desired,override_duplicate_stem,parameters,correct_options,incorrect_options,image=None):
     '''A multiple choice question in which there are variables in either or both of the stem and 
     the answers. Technically, this is a superset of static multiple choice questions, and could be 
     used as such, but I am keeping them separate to ensure that authoring static questions is as 
@@ -241,11 +241,11 @@ def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,p
 
             previous_answer_sets.append(new_set)
             unique_questions_generated.append(format_multiple_choice(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,subbed_correct_answer[0],subbed_distractors,image))
+                str(len(unique_questions_generated)+1),points,stem_with_blanks,subbed_correct_answer[0],subbed_distractors,image))
             #print(unique_questions_generated)
     return unique_questions_generated
 
-def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,force_multiple_choice=False,image=None):
+def ranked_list_multiple_choice(points,stem,num_questions_desired,override_duplicate_stem,ranked_list,list_length,num_correct,force_multiple_choice=False,image=None):
     '''A multiple choice question in which the goal is to determine which answer(s) correctly rank(s)
     a set of options. The author supplies a list of correctly ranked items
     and from those we generate lists of incorrectly ranked items.'''
@@ -337,13 +337,13 @@ def ranked_list_multiple_choice(stem,num_questions_desired,override_duplicate_st
             if force_multiple_choice and (num_correct == 1):
                 check_all_that_apply(stem)
                 unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
-                    stem_with_blanks,correct_answers[0],distractors,image))
+                    points,stem_with_blanks,correct_answers[0],distractors,image))
             else: 
-                unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),stem_with_blanks,correct_answers,distractors,image))
+                unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),points,stem_with_blanks,correct_answers,distractors,image))
             
     return unique_questions_generated  
 
-def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,pairs,num_correct,answer_match_or_mismatch,force_multiple_choice=False,image=None):
+def multiple_choice_matching(points,stem,num_questions_desired,override_duplicate_stem,pairs,num_correct,answer_match_or_mismatch,force_multiple_choice=False,image=None):
 
     # Given a list of pairs of items, choose the ones that either do or do not match.
     # For example, each pair could consist of a geologic eon and an event 
@@ -467,10 +467,10 @@ def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,
             if force_multiple_choice and (num_correct == 1):
                 check_all_that_apply(stem)
                 unique_questions_generated.append(format_multiple_choice(str(len(unique_questions_generated)+1),\
-                    stem_with_blanks,correct_answer_strings[0],distractor_strings,image))
+                    points,stem_with_blanks,correct_answer_strings[0],distractor_strings,image))
             else: 
                 unique_questions_generated.append(format_multiple_answer(str(len(unique_questions_generated)+1),\
-                    stem_with_blanks,correct_answer_strings,distractor_strings,image))              
+                    points,stem_with_blanks,correct_answer_strings,distractor_strings,image))              
 
             # Having chosen all the options for this instance of the question,
             # keep a copy of the ones that were used so we can compare the answers 
@@ -479,7 +479,7 @@ def multiple_choice_matching(stem,num_questions_desired,override_duplicate_stem,
 
     return unique_questions_generated
 
-def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,input_parameters,percent_precision,image=None):
+def numeric_question(points,stem,num_questions_desired,override_duplicate_stem,formula,input_parameters,percent_precision,image=None):
     """Note that there is a limitation of Canvas in that the answer to a numerical question 
     must be larger than 1E-4. All values lower than that will be interpreted as zero. So, 
     ensure that appropriate units are chosen such that the answer is larger than 1E-4 and 
@@ -512,11 +512,11 @@ def numeric_question(stem,num_questions_desired,override_duplicate_stem,formula,
         answer_precision = correct_answer*percent_precision/100.0
         #print(correct_answer,answer_precision)
         unique_questions_generated.append(format_numeric_question((len(unique_questions_generated)+1),\
-            revised_stem,correct_answer,answer_precision,image))
+            points,revised_stem,correct_answer,answer_precision,image))
 
     return unique_questions_generated
 
-def transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,output_image_path,focus_parameter=None,distractor_multipliers=None):
+def transit_graph(points,stem,num_questions_desired,override_duplicate_stem,planet_parameters,graph_parameters,zoom_level,output_image_path,focus_parameter=None,distractor_multipliers=None):
 
     # Define standard answers:
     standard_answers = ["A","B","C","D","E"]
@@ -636,6 +636,6 @@ def transit_graph(stem,num_questions_desired,override_duplicate_stem,planet_para
 
             previous_answer_sets.append(new_set)
             unique_questions_generated.append(format_multiple_choice(\
-                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answer[0],distractors,image_file))
+                str(len(unique_questions_generated)+1),points,stem_with_blanks,correct_answer[0],distractors,image_file))
             # print(unique_questions_generated)
     return unique_questions_generated
