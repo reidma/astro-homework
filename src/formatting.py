@@ -55,6 +55,9 @@ def format_multiple_choice(question_num,stem,correct_answer,distractors,image=No
     # it lines up with the first character of the text of the stem. This is a 
     # requirement of text2qti.
     indent_string = " "*(len(question_num)-1)
+
+    # Fix formatting of newlines so they remain visible on Canvas
+    #stem = stem.replace('\\n', '<br>') 
     if image:
         # For now, use an rf string, inheriting the formatting from text2qti. May need to revise this.
         formatted_multiple_choice_string = textwrap.dedent(rf"""

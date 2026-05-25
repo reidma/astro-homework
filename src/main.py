@@ -2,7 +2,7 @@ from io import TextIOWrapper
 import json
 import sys
 import os
-from question_types import static_multiple_choice, ordered_multiple_choice, ranked_list_multiple_choice, multiple_choice_matching, numeric_question, multiple_answer, transit_graph
+from question_types import static_multiple_choice, multiple_choice_with_variables, ordered_multiple_choice, ranked_list_multiple_choice, multiple_choice_matching, numeric_question, multiple_answer, transit_graph
 from utilities import write_questions_to_file
 
 def generate_questions():
@@ -31,6 +31,9 @@ def generate_questions():
     markdown_output_file: TextIOWrapper = open(str(quiz_data_from_file['quiz_name']).replace(' ', '_') + ".md", "w")
     quiz_title = 'Quiz title: '+ str(quiz_data_from_file['quiz_name']+ '\n')
     markdown_output_file.write(quiz_title)
+    quiz_description = 'Quiz description: '+ str(quiz_data_from_file['quiz_description']+ '\n')
+    markdown_output_file.write(quiz_description)
+
     if quiz_data_from_file['shuffle_answers']:
         markdown_output_file.write('shuffle answers: true')
 
@@ -41,6 +44,9 @@ def generate_questions():
         if question['question_type'] == 'static_multiple_choice':
             new_questions = static_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['static_multiple_choice']['correct_answers'],question['static_multiple_choice']['distractors'],question.get('image'))
+        elif question['question_type'] == 'multiple_choice_with_variables':
+            new_questions = multiple_choice_with_variables(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
+                question['multiple_choice_with_variables']['variables'],question['multiple_choice_with_variables']['correct_answers'],question['multiple_choice_with_variables']['distractors'],question.get('image'))    
         elif question['question_type'] == 'ordered_multiple_choice':
             new_questions = ordered_multiple_choice(question['stem'],question['versions_requested'],question['override_duplicate_stem'],\
                 question['ordered_multiple_choice']['parameters'],question['ordered_multiple_choice']['correct_answers'],question['ordered_multiple_choice']['distractors'],question.get('image'))

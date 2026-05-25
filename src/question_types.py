@@ -101,6 +101,70 @@ def static_multiple_choice(stem,num_questions_desired,override_duplicate_stem,co
             #print(unique_questions_generated)
     return unique_questions_generated
 
+def multiple_choice_with_variables(stem,num_questions_desired,override_duplicate_stem,variables,correct_options,incorrect_options,image=None):
+
+    # This question type is a multiple choice question in which there are variables in either or both of the stem and 
+    # the answers. Technically, this is a superset of static multiple choice questions, and could be 
+    # used as such, but I am keeping them separate to ensure that authoring static questions is as 
+    # straightforward as possible. In this case, the parameter list provided is assumed to be
+    # sequential. The variable names are var0, var1, var2, etc. and will be automatically substituted.
+
+    # A list to keep track of sets of answers previously used so we don't duplicate them
+    previous_answer_sets = []
+
+    # A list that keeps track of all of the unique questions generated. The length of this list
+    # Is used to decide when we are done generating questions.
+    unique_questions_generated = []
+
+    # Generate the requested number of versions of this question 
+    while len(unique_questions_generated) < num_questions_desired:
+        # Pick a random variable for inclusion in the stem:
+        variable_indices = [i for i in range(0,len(variables))]
+        chosen_variable_index = random.choice(variable_indices)
+        chosen_variable = variables[chosen_variable_index]
+
+        # Substitute the chosen variable into the stem using correct_articles to ensure that the article in front of it is correct:
+        subbed_stem = correct_articles(stem,"variable",chosen_variable)
+
+        # Pick the set of correct_options and incorrect_options that correspond to the chosen variable. This assumes that the correct_options and incorrect_options lists are ordered in the same way as the variables list, so that the first set of options corresponds to the first variable, etc.
+        locally_correct_options = correct_options[chosen_variable_index]
+        locally_incorrect_options = incorrect_options[chosen_variable_index]
+
+        # Replace instances of 'variable' in the correct and incorrect options with the chosen variable, again using correct_articles to ensure that any articles in front of it are correct.
+
+        subbed_correct_options = [correct_articles(answer,"variable",chosen_variable) for answer in locally_correct_options]
+        subbed_incorrect_options = [correct_articles(answer,"variable",chosen_variable) for answer in locally_incorrect_options]
+
+        print(subbed_stem)
+        print(subbed_correct_options)
+        print(subbed_incorrect_options)
+
+        # Select the distractors randomly from among the incorrect answers
+        distractors = random.sample(subbed_incorrect_options,4)
+        # Select the correct answer randomly from among the correct options
+        correct_answer = [random.choice(subbed_correct_options)]
+
+        # Produce a list of all of the answers used for this version of the question and 
+        # sort them so that they can be compared to previously generated sets
+        new_set = correct_answer + distractors
+        new_set.sort()
+
+        # If this version of the question isn't a duplicate, use it
+        if new_set not in previous_answer_sets:
+
+            # Override stem deduplication if specified in JSON file
+            if override_duplicate_stem:
+                stem_with_blanks = add_blank_characters(subbed_stem,len(unique_questions_generated))
+            else:
+                stem_with_blanks = subbed_stem
+
+            previous_answer_sets.append(new_set)
+            unique_questions_generated.append(format_multiple_choice(\
+                str(len(unique_questions_generated)+1),stem_with_blanks,correct_answer[0],distractors,image))
+            #print(unique_questions_generated)
+    return unique_questions_generated
+
+
 def ordered_multiple_choice(stem,num_questions_desired,override_duplicate_stem,parameters,correct_options,incorrect_options,image=None):
     '''A multiple choice question in which there are variables in either or both of the stem and 
     the answers. Technically, this is a superset of static multiple choice questions, and could be 

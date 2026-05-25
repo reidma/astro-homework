@@ -26,6 +26,19 @@
             }
         },
         {
+            "question_type": "multiple_choice_with_variables",
+            "stem": "Compared to the Sun, a variable would be:",
+            "versions_requested": 5,
+            "override_duplicate_stem": true,
+            "multiple_choice_with_variables":
+            {
+                "variables": ["red dwarf","blue supergiant","yellow dwarf"],
+                "correct_answers": [["smaller","less massive","cooler","longer-lived"],["bigger","more massive","hotter","shorter-lived"],["about the same size","about the same colour","about the same mass","about the same lifespan"]],
+                "distractors": [["bigger","more massive","hotter","shorter-lived"],["smaller","less massive","cooler","longer-lived"],["much bigger","much less massive","cooler","longer-lived"]]
+            }
+        },
+
+        {
             "question_type": "static_multiple_choice",
             "stem": "The following image shows an H-R diagram. Each point corresponds to a star. Collectively, these stars represent all the stars known to lie within 330 light years of the Sun. Choose the most accurate statement, based on this diagram.",
             "versions_requested": 15,
