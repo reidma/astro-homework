@@ -2,7 +2,7 @@
 
 ## Description
 
-This package allows rapid algorithmic generation of large numbers of homework questions for the QTI compliant learning management system (LMS). It contains several specialized question types suited to astronomy courses, but most of the question types are generalizable to any subject. It takes a JSON file (and optionally some images) to define the content of the questions. It produces a markdown file (and optionally more images) which must then be run through text2qti (https://github.com/gpoore/text2qti) to convert them into a QTI-compliant file for import into an LMS.
+This package allows rapid algorithmic generation of large numbers of homework questions for2 QTI compliant learning management systems (LMS) such as Canvas. It contains several specialized question types suited to astronomy courses, but most of the question types are generalizable to any subject. It takes a JSON file (and optionally some images) to define the content of the questions. It produces a markdown file (and optionally more images) which must then be run through text2qti (https://github.com/gpoore/text2qti) to convert them into a QTI-compliant file for import into an LMS.
 
 Text2qti already supports markdown input, including certain types of algorithmically generated questions. This package greatly extends the variety of question types that can be generated algorithmically, and adds astronomy-specific graphs (transit light curves in particular).
 
