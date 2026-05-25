@@ -21,6 +21,8 @@ Run main.py on comprehensive_question_set.json, which should produce a copy of t
 
 Install text2qti from its repo (linked above) and run 
 
-```text2qti Comprehensive_Question_Set.md```
+```
+text2qti Comprehensive_Question_Set.md
+```
 
 This will generate a .zip file in QTI format, suitable for upload to your LMS.
